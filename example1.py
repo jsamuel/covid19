@@ -119,7 +119,7 @@ def main(county, state, country, data_repo_dir):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--county', default='Snohomish')
+    parser.add_argument('--county', default='Whatcom')
     parser.add_argument('--state', default='Washington')
     parser.add_argument('--country', default='US')
     parser.add_argument('--data-repo-dir', default='COVID-19')
