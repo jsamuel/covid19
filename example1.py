@@ -23,11 +23,13 @@ import glob
 def get_files_in_date_order(data_repo_dir):
     reports_dir = data_repo_dir + '/csse_covid_19_data/csse_covid_19_daily_reports'
 
-    # TODO: don't ignore files before April.
-    # The files changed formats a few times. For quick implementation, I just
-    # ignored everything before April.
-    file_list = glob.glob(reports_dir + '/04-*-2020.csv')
+    # The file format before 3/22 did not contain county-level data but instead
+    # only state-level data. So, only look at files from 3/22 onward.
+    file_list = glob.glob(reports_dir + '/03-2[2-9]-2020.csv')
+    file_list += glob.glob(reports_dir + '/03-3[0-1]-2020.csv')
+    file_list += glob.glob(reports_dir + '/04-*-2020.csv')
     file_list.sort()
+
     return file_list
 
 
@@ -72,7 +74,9 @@ def get_records(combined_key, data_repo_dir):
                 prev_recovered = rec['recovered']
                 prev_active = rec['active']
 
-    return records
+    # Drop the first record since the "new" counts won't be accurate as
+    # they will start out with the total so far in the first record.
+    return records[1:]
 
 
 def print_raw(records):
